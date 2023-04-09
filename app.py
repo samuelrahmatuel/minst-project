@@ -31,34 +31,39 @@ def app():
     st.title("Handwritten Digit Recognition")
     st.markdown("## :pencil2: Draw a digit from 0 to 9")
 
-    st.write("This app uses a trained machine learning model to recognize handwritten digits. Draw a digit (0-9) in the canvas below and click 'Submit' to see the predicted result. *WIP Project*")
+    st.write("Aplikasi ini menggunakan model deep learning yang telah dilatih untuk mengenali angka tulisan tangan. Gambar angka (0-9) di kanvas di bawah ini, lalu klik 'Submit' untuk melihat prediksi model. The model is based on a medium-level complexity neural network architecture.")
 
-    # Add a drawing canvas
-    canvas_result = st_canvas(
-        fill_color="rgba(0, 0, 0, 1)",
-        stroke_width=20,
-        stroke_color="white",
-        background_color="black",
-        width=280,
-        height=280,
-        drawing_mode="freedraw",
-        key="canvas",
-    )
+    col1, col2, col3 = st.columns([1, 2, 1])
 
-    # Add input widgets
-    submit_button = st.button("Submit")
+    with col2:
+        # Add a drawing canvas
+        canvas_result = st_canvas(
+            fill_color="rgba(0, 0, 0, 1)",
+            stroke_width=20,
+            stroke_color="white",
+            background_color="black",
+            width=280,
+            height=280,
+            drawing_mode="freedraw",
+            key="canvas",
+        )
 
-    # When the user clicks the submit button, make a prediction
-    if submit_button:
-        if canvas_result.image_data is not None:
-            input_data = cv2.cvtColor(canvas_result.image_data.astype('uint8'), cv2.COLOR_RGBA2GRAY)
-            prediction = predict_output(input_data)
-            predicted_digit = np.argmax(prediction)
-            st.success(f"Prediction: {predicted_digit}")
-        else:
-            st.warning("Please draw a digit in the canvas.")
-            
-    st.write("Next Progress : Train Model more, Implementing Deep Learning for recommendation, Add more features")
+        # Add input widgets
+        submit_button = st.button("Submit")
+
+        # When the user clicks the submit button, make a prediction
+        if submit_button:
+            if canvas_result.image_data is not None:
+                input_data = cv2.cvtColor(canvas_result.image_data.astype('uint8'), cv2.COLOR_RGBA2GRAY)
+                prediction = predict_output(input_data)
+                predicted_digit = np.argmax(prediction)
+                st.success(f"Prediction: {predicted_digit}")
+            else:
+                st.warning("Please draw a digit in the canvas.")
+
+
+    st.write("This is a work-in-progress project and improvements are continuously being made. Epoch = 10.")
+    st.write("Next Progress : Train Model more, Add more features and Get better UI")
     st.markdown("<p style='text-align: right; font-style: italic;'>Created by: <a href='https://rahmatuelsamuel.com'>Rahmatuel Samuel</a></p>", unsafe_allow_html=True)
 
 if __name__ == "__main__":
